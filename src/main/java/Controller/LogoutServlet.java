@@ -6,8 +6,8 @@ import javax.servlet.http.*;
 
 @WebServlet("/LogoutServlet")
 public class LogoutServlet extends HttpServlet {
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	private static final long serialVersionUID = 1L;
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
         HttpSession session = request.getSession(false);

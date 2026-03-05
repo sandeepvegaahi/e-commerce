@@ -19,7 +19,7 @@ public class AdminProduct extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        // ✅ SAFER METHOD
+        //  SAFER METHOD
         if (session == null || session.getAttribute("admin") == null) {
            // response.sendRedirect("admin-login.jsp");
         	 response.sendRedirect("addProduct.jsp");

@@ -110,7 +110,7 @@ input[type="submit"]:hover {
     </div>
 
     <div class="form-group">
-        <label>Image Name (example: shirt.jpg)</label>
+        <label>Image Name Url</label>
         <input type="text" name="image">
     </div>
 </div>

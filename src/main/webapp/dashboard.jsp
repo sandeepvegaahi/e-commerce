@@ -24,6 +24,7 @@ int totalUsers = userDAO.getUserCount();   // ADDED
 <html>
 <head>
 <title>Admin Dashboard</title>
+<link rel="icon" href="images/ican.jpg"> 
 <style>
 
 body {
@@ -110,8 +111,11 @@ body {
     }
 }
 </style>
+
 </head>
+
 <body>
+
 
 <jsp:include page="navbar.jsp" />
 

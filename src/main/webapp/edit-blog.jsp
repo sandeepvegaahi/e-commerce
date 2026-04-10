@@ -18,6 +18,7 @@ for(Blog b : dao.getAllBlogs()){
 <html>
 <head>
 <title>Edit Blog</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 body {

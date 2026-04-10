@@ -14,6 +14,7 @@ if(admin == null){
 <head>
 <meta charset="UTF-8">
 <title>Add Blog</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 

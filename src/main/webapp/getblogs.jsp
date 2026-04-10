@@ -17,13 +17,14 @@ List<Blog> list = dao.getAllBlogs();
 <head>
 <meta charset="UTF-8">
 <title>All Blogs</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 body {
     font-family: 'Segoe UI';
     background: #f4f6f9;
     margin:0;
-    padding:15px;
+    padding:15--px;
 }
 
 .top-bar {
@@ -90,7 +91,7 @@ body {
     background:#e85a3c;
 }
 
-/* ✅ BUTTONS ON CARD */
+
 .card-actions {
     padding:10px;
     text-align:center;
@@ -225,21 +226,41 @@ for(Blog b : list){
 </div>
 
 <script>
+
+// OPEN MODAL
 function openModal(id){
-    document.getElementById('modal-' + id).style.display = 'block';
+    const modal = document.getElementById('modal-' + id);
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // disable scroll
 }
 
+// CLOSE MODAL
 function closeModal(id){
-    document.getElementById('modal-' + id).style.display = 'none';
+    const modal = document.getElementById('modal-' + id);
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // enable scroll
 }
 
-window.onclick = function(event){
+// CLOSE WHEN CLICK OUTSIDE
+window.addEventListener('click', function(event){
     document.querySelectorAll('.modal').forEach(function(modal){
         if(event.target === modal){
             modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     });
-}
+});
+
+// CLOSE WITH ESC KEY 🔥
+window.addEventListener('keydown', function(event){
+    if(event.key === "Escape"){
+        document.querySelectorAll('.modal').forEach(function(modal){
+            modal.style.display = 'none';
+        });
+        document.body.style.overflow = 'auto';
+    }
+});
+
 </script>
 
 </body>

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Admin Login</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
     body {

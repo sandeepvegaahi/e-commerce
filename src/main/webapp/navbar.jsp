@@ -12,6 +12,7 @@ if(admin == null){
 <style>
 
 
+
 .navbar{
   
     display:flex;
@@ -48,6 +49,7 @@ if(admin == null){
     background:#2e4f87;   /* hover color */
 }
 </style>
+
 
 <div class="navbar">
 

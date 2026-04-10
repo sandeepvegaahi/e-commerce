@@ -22,6 +22,7 @@ if(product == null){
 <html>
 <head>
 <title>Edit Product</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 

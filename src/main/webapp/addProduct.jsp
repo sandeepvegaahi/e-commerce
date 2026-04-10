@@ -15,6 +15,7 @@ if(admin == null){
 <head>
 <meta charset="UTF-8">
 <title>Add Product</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 

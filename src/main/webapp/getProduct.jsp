@@ -11,13 +11,14 @@ List<Product> list = dao.getAllProducts();
 <head>
 <meta charset="UTF-8">
 <title>All Products</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     background: #f4f6f9;
-    
 }
+
 .navbar-space {
     margin-bottom: 18px;
 }
@@ -67,8 +68,7 @@ body {
 .card img {
     width: 100%;
     height: 220px;
-
-    background-position:cover;
+    object-fit: cover;
     border-radius: 10px;
 }
 
@@ -77,7 +77,7 @@ body {
     color: #2a5298;
 }
 
-/* ✅ BUTTONS ON CARD */
+/* BUTTONS */
 .button-group {
     margin-top: 12px;
 }
@@ -92,13 +92,8 @@ body {
     font-size: 14px;
 }
 
-.edit {
-    background: #28a745;
-}
-
-.delete {
-    background: #dc3545;
-}
+.edit { background: #28a745; }
+.delete { background: #dc3545; }
 
 /* MODAL */
 .modal {
@@ -112,6 +107,7 @@ body {
     background: rgba(0,0,0,0.6);
 }
 
+/* ✅ UPDATED MODAL WITH SCROLLBAR */
 .modal-content {
     background:white;
     margin:50px auto;
@@ -119,6 +115,34 @@ body {
     border-radius:10px;
     max-width:600px;
     position: relative;
+
+    height: 400px;        /* ✅ fixed height */
+    overflow-y: auto;     /* ✅ enable scroll */
+}
+
+/* ✅ SCROLLBAR STYLE */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #2a5298;
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #1e3c72;
+}
+
+/* Firefox */
+.modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: #2a5298 #f1f1f1;
 }
 
 .close {
@@ -128,11 +152,8 @@ body {
     font-size:28px;
     cursor:pointer;
 }
-
 </style>
 </head>
-
-<body>
 
 <body>
 
@@ -152,7 +173,6 @@ body {
 for(Product p : list){
 %>
 
-<!-- ✅ CARD -->
 <div class="card" onclick="openModal('<%= p.getProductId() %>')">
 
     <img src="<%= request.getContextPath() %>/images/<%= p.getImageUrl() %>">
@@ -161,30 +181,26 @@ for(Product p : list){
     <p><strong>Category:</strong> <%= p.getCategory() %></p>
     <p><strong>Price:</strong> ₹<%= p.getActualPrice() %></p>
 
-    <!-- ✅ BUTTONS BEFORE POPUP -->
     <div class="button-group" onclick="event.stopPropagation();">
-
-        <a class="edit" 
-           href="edit-product.jsp?id=<%= p.getProductId() %>">
-           Edit
-        </a>
+        <a class="edit" href="edit-product.jsp?id=<%= p.getProductId() %>">Edit</a>
 
         <a class="delete" 
            href="DeleteProductServlet?id=<%= p.getProductId() %>" 
            onclick="return confirm('Are you sure to delete?')">
            Delete
         </a>
-
     </div>
 
 </div>
 
-<!-- ✅ MODAL -->
+<!-- MODAL -->
 <div id="modal-<%= p.getProductId() %>" class="modal">
     <div class="modal-content">
+
         <span class="close" onclick="closeModal('<%= p.getProductId() %>')">&times;</span>
 
-        <img src="<%= request.getContextPath() %>/images/<%= p.getImageUrl() %>" style="width:90%;height:290px;  background-position:cover;">
+        <img src="<%= request.getContextPath() %>/images/<%= p.getImageUrl() %>" 
+             style="width:90%;height:250px;object-fit:cover;">
 
         <h3><%= p.getName() %></h3>
         <p><strong>Category:</strong> <%= p.getCategory() %></p>

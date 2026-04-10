@@ -11,8 +11,11 @@ List<User> list = dao.getAllUsers();
 <html>
 <head>
 <title>All Users</title>
+<link rel="icon" href="images/ican.jpg"> 
 
 <style>
+ 
+ 
 /* PAGE BACKGROUND */
 
 body {
@@ -159,6 +162,8 @@ a:hover {
     }
 }
 </style>
+
+
 </head>
 
 <body>

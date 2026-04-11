@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import Model.User;
-import Util.DBConnection;
+import model.User;
+import util.DBConnection;
 
 public class UserDAO {
     public boolean registerUser(User user) {

@@ -117,7 +117,7 @@ if(error != null){
 <input type="password" name="password" placeholder="Enter Password" required>
 
 <input type="submit" value="Login">
-
+ 
 </form>
 
 <div class="register-link">

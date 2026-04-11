@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+
+ 
 
 <!DOCTYPE html>
 <html>
@@ -8,284 +10,139 @@ pageEncoding="UTF-8"%>
 <title>Home | ShopEase</title>
 
 <style>
-
 body{
 margin:0;
 font-family:'Segoe UI',sans-serif;
-background-color:#f5ebe0;
+background:#f5ebe0;
 }
 
-/* Navbar */
-
-.navbar{
-background-color:#fffaf5;
-padding:15px 40px;
+/* Layout */
+.main{
 display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0px 4px 12px rgba(212,163,115,0.2);
 }
 
-.company-section{
-display:flex;
-align-items:center;
-gap:15px;
-}
+/* Sidebar */
 
-.company-name{
-font-size:24px;
-font-weight:bold;
-color:#9c6644;
-}
-
-/* Menu icon */
-
-.menu-container{
-position:relative;
-}
-
-.menu-icon{
-width:38px;
-height:38px;
-border-radius:50%;
-cursor:pointer;
-border:2px solid #ddb892;
-padding:5px;
+.sidebar{
+width:230px;
 background:#fffaf5;
+min-height:100vh;
+padding:20px;
+box-shadow:2px 0px 10px rgba(0,0,0,0.1);
 }
 
-.menu-dropdown{
-display:none;
-position:absolute;
-top:50px;
-left:0;
-background:white;
-min-width:180px;
-border-radius:10px;
-box-shadow:0px 6px 15px rgba(0,0,0,0.15);
+.sidebar h3{
+color:#9c6644;
+display:flex;
+align-items:center;
+gap:8px;
 }
 
-.menu-dropdown a{
-display:block;
-padding:12px;
+.sidebar a{
+display:flex;
+align-items:center;
+gap:8px;
+padding:10px;
 text-decoration:none;
 color:#6d4c41;
+border-radius:8px;
+transition:0.3s;
 }
 
-.menu-dropdown a:hover{
+.sidebar a:hover{
 background:#fdf0e6;
+transform:translateX(5px);
 }
 
-/* Sub Categories */
-
-.sub-category{
-display:none;
-padding-left:15px;
-background:#faf3eb;
+/* Icons inside sidebar */
+.sidebar img{
+width:18px;
 }
 
-.sub-category a{
-padding:10px;
+/* Subcategory */
+
+.sub{
+margin-left:10px;
 font-size:14px;
 }
 
-/* Profile */
-
-.profile-section{
-position:relative;
-}
-
-.profile-icon{
-width:38px;
-height:38px;
-border-radius:50%;
-cursor:pointer;
-border:2px solid #ddb892;
-}
-
-.dropdown{
-display:none;
-position:absolute;
-right:0;
-top:50px;
-background:white;
-min-width:160px;
-border-radius:10px;
-box-shadow:0px 6px 15px rgba(0,0,0,0.15);
-}
-
-.dropdown a{
-display:block;
-padding:12px;
-text-decoration:none;
-color:#6d4c41;
-}
-
-.dropdown a:hover{
-background:#fdf0e6;
-}
-
-/* Page Content */
+/* Content */
 
 .content{
-padding:40px;
-text-align:center;
+flex:1;
+padding:30px;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
+<%@ include file="header.jsp" %>
 
-<div class="navbar">
+<div class="main">
 
-<div class="company-section">
+<!-- Sidebar -->
 
-<!-- Menu Icon -->
+<div class="sidebar">
+<!-- ALL PRODUCTS -->
+<h3>🛒 Categories</h3>
+<a href="home.jsp" class="sub">🛍️ All Products</a>
 
-<div class="menu-container">
+<!-- ELECTRONICS -->
+<h3>📱 Electronics</h3>
+<a href="home.jsp?category=laptop" class="sub">💻 Laptops</a>
+<a href="home.jsp?category=phone" class="sub">📱 Phones</a>
 
-<img src="<%=request.getContextPath()%>/images/menu.png"
-class="menu-icon"
-onclick="toggleMainMenu()">
+<!-- FASHION -->
+<h3>👗 Fashion</h3>
+<a href="home.jsp?category=womens" class="sub">👩 Women Dresses</a>
+<a href="home.jsp?category=mens" class="sub">👨 Men Dresses</a>
+<a href="home.jsp?category=shoes" class="sub">👟 Shoes</a>
 
-<div id="mainMenu" class="menu-dropdown">
-
-<a href="javascript:void(0)" onclick="toggleCategories()">Categories</a>
-
-<div id="categories" class="sub-category">
-
-<a href="products.jsp?category=electronics">Electronics</a>
-<a href="products.jsp?category=fashion">Fashion</a>
-<a href="products.jsp?category=home">Home Decor</a>
-<a href="products.jsp?category=beauty">Beauty</a>
-
-</div>
-
-<a href="blogs.jsp">Blogs</a>
-
-</div>
-
-</div>
-
-<!-- Company Name -->
-
-<div class="company-name">
-ShopEase
-</div>
+<!-- BEAUTY -->
+<h3>💄 Beauty</h3>
+<a href="home.jsp?category=makeup" class="sub">💄 Makeup</a>
+<h3>📰 More</h3>
+<a href="../getblogs.jsp">
+📰 Blogs
+</a>
 
 </div>
 
-<!-- Profile Section -->
-
-<div class="profile-section">
-
-<img src="<%=request.getContextPath()%>/images/profile.jpg"
-class="profile-icon"
-onclick="toggleProfileMenu()">
-
-<div id="menu" class="dropdown">
-
-<%
-Object user = session.getAttribute("user");
-
-if(user == null){
-%>
-
-<a href="login.jsp">Login</a>
-<a href="register.jsp">Register</a>
-
-<%
-}else{
-%>
-
-<a href="profile.jsp">Profile</a>
-<a href="<%=request.getContextPath()%>/LogoutServlet">Logout</a>
-
-<%
-}
-%>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- Page Content -->
+<!-- Content -->
 
 <div class="content">
 
-<h1>Welcome to ShopEase 🛍️</h1>
-
-<p>
-Discover the best products with comfort and style.
-</p>
+ <jsp:include page="../getProduct.jsp" />
 
 </div>
 
+</div>
 
-<script>
-
-/* Profile Menu */
-
-function toggleProfileMenu(){
-
-var menu=document.getElementById("menu");
-
-if(menu.style.display==="block"){
-menu.style.display="none";
-}else{
-menu.style.display="block";
-}
-
-}
-
-/* Main Menu */
-
-function toggleMainMenu(){
-
-var menu=document.getElementById("mainMenu");
-
-if(menu.style.display==="block"){
-menu.style.display="none";
-}else{
-menu.style.display="block";
-}
-
-}
-
-/* Categories */
-
-function toggleCategories(){
-
-var cat=document.getElementById("categories");
-
-if(cat.style.display==="block"){
-cat.style.display="none";
-}else{
-cat.style.display="block";
-}
-
-}
-
-/* Close menu when clicking outside */
-
-window.onclick=function(event){
-
-if(!event.target.closest('.profile-section') &&
-   !event.target.closest('.menu-container')){
-
-document.getElementById("menu").style.display="none";
-document.getElementById("mainMenu").style.display="none";
-
-}
-
-}
-
-</script>
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>
+<script>
+function toggleFav(event, productId){
+    event.stopPropagation();
+
+    let icon = event.target;
+
+    fetch("<%=request.getContextPath()%>/FavoriteServlet?id=" + productId)
+    .then(res => res.text())
+    .then(data => {
+
+        data = data.trim();
+        console.log("Response:", data);
+
+        if(data === "added"){
+            icon.innerHTML = "❤️";
+        }
+        else if(data === "removed"){
+            icon.innerHTML = "🤍";
+        }
+    })
+    .catch(err => console.log(err));
+}
+</script>

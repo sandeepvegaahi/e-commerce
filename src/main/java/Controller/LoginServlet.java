@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import java.io.IOException;
 
@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.UserDAO;
-import Model.User;
-//import Util.PasswordUtil;
+import model.User;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -32,12 +31,20 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+ 
+         // 🔥 NEW CODE
+            String redirect = request.getParameter("redirect");
 
-            response.sendRedirect("user/home.jsp");
+            if (redirect != null && !redirect.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/" + redirect);
+            } else {
+                response.sendRedirect("user/home.jsp");
+            }
 
         } else {
         	 request.setAttribute("errorMessage", "Wrong credentials! Try again");
         	 request.getRequestDispatcher("/user/login.jsp").forward(request, response);
         }
+        
     }
 }

@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import java.io.IOException;
 
@@ -6,8 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
-import Model.User;
 import dao.UserDAO;
+import model.User;
 
 @WebServlet("/DeactivateServlet")
 public class DeactivateServlet extends HttpServlet {

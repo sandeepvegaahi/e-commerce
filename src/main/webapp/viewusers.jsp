@@ -3,241 +3,329 @@
 <%@ page import="model.User" %>
 
 <%
-UserDAO dao = new UserDAO();
-List<User> list = dao.getAllUsers();
+    UserDAO dao = new UserDAO();
+    List<User> list = dao.getAllUsers();
 %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>All Users</title>
-<link rel="icon" href="images/ican.jpg"> 
-
-<style>
- 
- 
-/* PAGE BACKGROUND */
-
-body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: linear-gradient(135deg, #dfe9f3, #ffffff);
-    padding: 30px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Directory | Admin</title>
+    <link rel="icon" href="images/ican.jpg"> 
     
-}
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-/* TITLE */
-h2 {
-    text-align: center;
-    color: #2a5298;
-    margin-bottom: 10px;
-}
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --white: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
 
-/* BACK BUTTON */
-.back-btn {
-    display: inline-block;
-    padding: 10px 18px;
-    background: linear-gradient(135deg, #2a5298, #1e3c72);
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: 0.3s;
-}
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            color: var(--text-main);
+        }
 
-.back-btn:hover {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-/* TABLE */
-table {
-    width: 85%;
-    margin: auto;
-    border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
+        /* HEADER SECTION */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
 
-/* HEADER */
-th {
-    background: linear-gradient(135deg, #2a5298, #1e3c72);
-    color: white;
-    padding: 14px;
-    font-size: 16px;
-}
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -1px;
+        }
 
-/* ROWS */
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-}
+        .count-badge {
+            background: #dbeafe;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
 
-/* HOVER EFFECT */
-tr:hover {
-    background: #f1f6ff;
-    transition: 0.3s;
-}
+        /* TABLE STYLING */
+        .table-container {
+            background: var(--white);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
 
-/* LINK STYLE */
-a {
-    text-decoration: none;
-    color: #2a5298;
-    font-weight: 500;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
 
-a:hover {
-    color: #1e3c72;
-    text-decoration: underline;
-}
+        th {
+            background: #f1f5f9;
+            padding: 18px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
 
-/* POPUP BACKGROUND */
-.popup {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    animation: fadeIn 0.3s ease;
-}
+        td {
+            padding: 16px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 15px;
+        }
 
-/* POPUP BOX */
-.popup-content {
-    background: #ffffff;
-    width: 420px;
-    margin: 100px auto;
-    padding: 25px;
-    border-radius: 15px;
-    position: relative;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    animation: slideDown 0.4s ease;
-}
+        tr:last-child td { border-bottom: none; }
 
-/* CLOSE BUTTON */
-.close {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 22px;
-    cursor: pointer;
-    color: #555;
-}
+        tr:hover td {
+            background-color: #f8fafc;
+        }
 
-.close:hover {
-    color: red;
-}
+        /* USER ROW STYLES */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-/* POPUP TEXT */
-.popup-content h2 {
-    text-align: center;
-    color: #2a5298;
-    margin-bottom: 15px;
-}
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
 
-.popup-content p {
-    font-size: 15px;
-    margin: 10px 0;
-    color: #333;
-}
+        .user-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            transition: 0.2s;
+        }
 
-/* ANIMATIONS */
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
+        .user-link:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
 
-@keyframes slideDown {
-    from {
-        transform: translateY(-50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-</style>
+        .view-btn {
+            background: #f1f5f9;
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s;
+        }
 
+        .view-btn:hover { background: #e2e8f0; }
 
+        /* BACK BUTTON */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--text-main);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .btn-back:hover { background: #f8fafc; transform: translateX(-5px); }
+
+        /* MODAL / POPUP */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 24px;
+            padding: 35px;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .detail-row:last-of-type { border-bottom: none; }
+
+        .detail-label { color: var(--text-muted); font-weight: 500; font-size: 14px; }
+        .detail-value { color: var(--text-main); font-weight: 700; font-size: 14px; }
+    </style>
 </head>
 
 <body>
-<jsp:include page="navbar.jsp" />
+    <jsp:include page="navbar.jsp" />
 
+    <div class="container">
+        
+        <div class="page-header">
+            <div>
+                <h2>User Directory <span class="count-badge"><%= list.size() %> Users</span></h2>
+            </div>
+            <a href="dashboard.jsp" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+        </div>
 
-<h2>User List</h2>
-
-
-<table>
-<tr>
-    <th>ID</th>
-    <th>Name</th>
-</tr>
-
-<% for(User u : list){ %>
-<tr>
-    <td><%= u.getUserId() %></td>
-
-    <td>
-        <a href="#" onclick="showUser(
-            '<%= u.getFullName() %>',
-            '<%= u.getEmail() %>',
-            '<%= u.getPhone() %>',
-            '<%= u.getCity() %>',
-            '<%= u.getState() %>',
-            '<%= u.getPincode() %>'
-        )">
-            <%= u.getFullName() %>
-        </a>
-    </td>
-</tr>
-<% } %>
-
-</table>
-
-<!-- POPUP -->
-<div id="popup" class="popup">
-    <div class="popup-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-
-        <h2>User Details</h2>
-
-        <p><b>Name:</b> <span id="name"></span></p>
-        <p><b>Email:</b> <span id="email"></span></p>
-        <p><b>Phone:</b> <span id="phone"></span></p>
-        <p><b>City:</b> <span id="city"></span></p>
-        <p><b>State:</b> <span id="state"></span></p>
-        <p><b>Pincode:</b> <span id="pincode"></span></p>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>User Profile</th>
+                        <th style="text-align: right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(User u : list){ 
+                        // Extract initials for avatar
+                        String initials = "";
+                        if(u.getFullName() != null && !u.getFullName().isEmpty()){
+                            initials = u.getFullName().substring(0,1);
+                        }
+                    %>
+                    <tr>
+                        <td style="color: var(--text-muted); font-weight: 600;">#<%= u.getUserId() %></td>
+                        <td>
+                            <div class="user-info">
+                                <div class="avatar"><%= initials %></div>
+                                <a href="javascript:void(0)" class="user-link" onclick="showUser(
+                                    '<%= u.getFullName() %>', '<%= u.getEmail() %>', '<%= u.getPhone() %>',
+                                    '<%= u.getCity() %>', '<%= u.getState() %>', '<%= u.getPincode() %>'
+                                )">
+                                    <%= u.getFullName() %>
+                                </a>
+                            </div>
+                        </td>
+                        <td style="text-align: right;">
+                            <button class="view-btn" onclick="showUser(...)">Details</button>
+                        </td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
-<script>
-function showUser(name, email, phone, city, state, pincode) {
+    <!-- USER DETAIL MODAL -->
+    <div id="popup" class="modal" onclick="closePopup()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closePopup()"><i class="fa-solid fa-circle-xmark"></i></span>
 
-    document.getElementById("name").innerText = name;
-    document.getElementById("email").innerText = email;
-    document.getElementById("phone").innerText = phone;
-    document.getElementById("city").innerText = city;
-    document.getElementById("state").innerText = state;
-    document.getElementById("pincode").innerText = pincode;
+            <div style="text-align: center; margin-bottom: 25px;">
+                <div id="modal-avatar" style="width: 60px; height: 60px; background: var(--primary); color:white; border-radius: 50%; display:inline-flex; align-items:center; justify-content:center; font-size: 24px; font-weight: 800; margin-bottom: 10px;">?</div>
+                <h2 id="m-name" style="margin:0; font-size: 22px;">User Name</h2>
+                <p id="m-email" style="margin:5px 0 0 0; color: var(--text-muted); font-size: 14px;">email@example.com</p>
+            </div>
 
-    document.getElementById("popup").style.display = "block";
-}
+            <div class="detail-row">
+                <span class="detail-label"><i class="fa-solid fa-phone"></i> Contact</span>
+                <span class="detail-value" id="m-phone">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label"><i class="fa-solid fa-city"></i> City</span>
+                <span class="detail-value" id="m-city">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label"><i class="fa-solid fa-map-location-dot"></i> State</span>
+                <span class="detail-value" id="m-state">-</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label"><i class="fa-solid fa-thumbtack"></i> Pincode</span>
+                <span class="detail-value" id="m-pincode">-</span>
+            </div>
 
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
+            <button onclick="closePopup()" class="btn-back" style="width: 100%; justify-content: center; margin-top: 25px; background: var(--primary); color: white; border: none;">
+                Close Profile
+            </button>
+        </div>
+    </div>
 
-</script>
-<!-- BACK BUTTON AFTER TABLE -->
-<div style="text-align:center; margin-top:25px;">
-    <a href="dashboard.jsp" class="back-btn">Back to Dashboard</a>
-</div>
+    <script>
+        function showUser(name, email, phone, city, state, pincode) {
+            document.getElementById("m-name").innerText = name;
+            document.getElementById("m-email").innerText = email;
+            document.getElementById("m-phone").innerText = phone;
+            document.getElementById("m-city").innerText = city;
+            document.getElementById("m-state").innerText = state;
+            document.getElementById("m-pincode").innerText = pincode;
+            
+            // Set Modal Avatar Initial
+            document.getElementById("modal-avatar").innerText = name.charAt(0).toUpperCase();
 
+            document.getElementById("popup").style.display = "flex";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    </script>
 </body>
 </html>
